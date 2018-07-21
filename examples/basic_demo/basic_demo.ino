@@ -35,16 +35,18 @@ void loop()
      u16 value=0;
     u8 data[6]={0};
     float temp,hum;
-    // sensor.read_reg_status(&value);
-    // SERIAL.print("status =");
-    // SERIAL.println(value,HEX);
     sensor.read_meas_data_single_shot(HIGH_REP_WITH_STRCH,&temp,&hum);
+
+    SERIAL.println("result======>");
     SERIAL.print("temp =");
     SERIAL.println(temp);
 
     SERIAL.print("hum =");
     SERIAL.println(hum);
 
+    SERIAL.println("   ");
+    SERIAL.println("   ");
+    SERIAL.println("   ");
     delay(1000);
 }
 
