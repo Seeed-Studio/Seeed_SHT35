@@ -67,135 +67,9 @@ u16 SHT35::hum_to_hex(float hum)
 }
 
 
-err_t SHT35::set_high_limit(float temp,float hum)
-{
-	u16 value=0;
-	err_t ret=NO_ERROR;
-	u8 data[2]={0};
-	value=convert_temp_hum_to_set_limit(temp,hum);
-	data[0]=value>>8;
-	data[1]=value;
-	//CHECK_RESULT(ret,send_command(CMD_WRITE_HIGH_ALERT_LIMIT_SET_VALUE));
-	CHECK_RESULT(ret,I2C_write_bytes(CMD_WRITE_HIGH_ALERT_LIMIT_SET_VALUE,data,2));
-	//CHECK_RESULT(ret,read_alert_limit(&value));
-	return ret;
-}
-
-err_t SHT35::set_high_limit_clear(float temp,float hum)
-{
-	err_t ret=NO_ERROR;
-	u16 value=0;
-	u8 data[2]={0};
-	value=convert_temp_hum_to_set_limit(temp,hum);
-	data[0]=value>>8;
-	data[1]=value;
-	CHECK_RESULT(ret,I2C_write_bytes(CMD_WRITE_HIGH_ALERT_LIMIT_CLEAR_VALUE,data,2));
-	return ret;
-}
-
-err_t SHT35::set_low_limit(float temp,float hum)
-{
-	err_t ret=NO_ERROR;
-	CHECK_RESULT(ret,send_command(CMD_WRITE_LOW_ALERT_LIMIT_SET_VALUE));
-	return ret;
-}
-
-err_t SHT35::set_low_limit_clear(float temp,float hum)
-{
-	err_t ret=NO_ERROR;
-	CHECK_RESULT(ret,send_command(CMD_WRITE_LOW_ALERT_LIMIT_CLEAR_VALUE));
-
-	return ret;
-}
-
-
-
-u16 SHT35::convert_temp_hum_to_set_limit(float temp,float hum)
-{
-	u16 value=0;
-	u16 temp_hex=0;
-	u16 hum_hex=0;
-	temp_hex=temp_to_hex(temp);
-
-	hum_hex=hum_to_hex(hum);
-
-	value=(hum_hex&0xfe00)|(temp_hex&0xff80)>>7;
-	//Serial.print("hex=");
-
-	//Serial.println(value,HEX);
-	return value;
-}
-
-err_t SHT35::clear_status_reg()
-{
-	err_t ret=NO_ERROR;
-	CHECK_RESULT(ret,send_command(CMD_CLEAR_SREG));
-	return ret;
-}
-
-
-
-
-err_t SHT35::read_alert_limit(u16* value)
-{
-	err_t ret=NO_ERROR;
-	*value =0;
-	u8 data[3]={0};
-	CHECK_RESULT(ret,send_command(CMD_READ_HIGH_ALERT_LIMIT_SET_VALUE));
-	CHECK_RESULT(ret,request_bytes(data,sizeof(data)));
-	*value = data[0]<<8 |data[1];
-	Serial.println("CMD_READ_HIGH_ALERT_LIMIT_SET_VALUE = ");
-	Serial.println(data[0],HEX);
-	Serial.println(data[1],HEX);
-	Serial.println(" ");
-
-	CHECK_RESULT(ret,send_command(CMD_READ_HIGH_ALERT_LIMIT_CLEAR_VALUE));
-	CHECK_RESULT(ret,request_bytes(data,sizeof(data)));
-	Serial.println("CMD_READ_HIGH_ALERT_LIMIT_CLEAR_VALUE");
-	Serial.println(data[0],HEX);
-	Serial.println(data[1],HEX);
-	Serial.println(" ");
-
-	CHECK_RESULT(ret,send_command(CMD_READ_LOW_ALERT_LIMIT_SET_VALUE));
-	CHECK_RESULT(ret,request_bytes(data,sizeof(data)));
-	Serial.println("CMD_READ_LOW_ALERT_LIMIT_SET_VALUE");
-	Serial.println(data[0],HEX);
-	Serial.println(data[1],HEX);
-	Serial.println(" ");
-
-	CHECK_RESULT(ret,send_command(CMD_READ_LOW_ALERT_LIMIT_CLEAR_VALUE));
-	CHECK_RESULT(ret,request_bytes(data,sizeof(data)));
-	Serial.println("CMD_READ_LOW_ALERT_LIMIT_CLEAR_VALUE");
-	Serial.println(data[0],HEX);
-	Serial.println(data[1],HEX);
-	Serial.println(" ");
-
-	return ret;
-}
-
-err_t SHT35::set_alert_limit()
-{
-	err_t ret=NO_ERROR;
-	return ret;
-}
-
-
-
 /******************************************************STATUS REG**************************************************/
 /******************************************************STATUS REG**************************************************/
 
-err_t SHT35::temp_alert_enable()
-{
-	err_t ret=NO_ERROR;
-	u16 value=0;
-	u8 data[2]={0};
-	Serial.println(value,HEX);
-	value|=1<<10;
-	data[0]=value>>8;
-	data[1]=value;
-	CHECK_RESULT(ret,I2C_write_bytes(CMD_READ_SREG,data,2));
-	return ret;
-}
 
 
 err_t SHT35::read_reg_status(u16 *value)
@@ -210,22 +84,7 @@ err_t SHT35::read_reg_status(u16 *value)
 	return ret;
 }
 
-/****************************************************/
 
-err_t SHT35::alert_pengding(u16 status,bool stat)
-{
-	stat = (status>>15)&0X01;
-	return NO_ERROR;
-}
-err_t SHT35::alert_pengding(bool stat)
-{
-	err_t ret=NO_ERROR;
-	u16 status=0;
-	CHECK_RESULT(ret,read_reg_status(&status));
-	stat = (status>>15)&0X01;
-	return ret;
-}
-/****************************************************/
 
 err_t SHT35::heaterStatus(u16 status,bool stat) 
 {
@@ -243,35 +102,8 @@ err_t SHT35::heaterStatus(bool stat)
 }
 /****************************************************/
 
-err_t SHT35::hum_trak_alert(u16 status,bool stat) 
-{
-	stat=((stat >> 11) & 0x01);
-	return NO_ERROR;
-}
-err_t SHT35::hum_trak_alert(bool stat)
-{
-	err_t ret=NO_ERROR;
-	u16 status=0;
-	CHECK_RESULT(ret,read_reg_status(&status));
-	stat=((stat >> 11) & 0x01);
-	return ret;
-}
-/****************************************************/
 
-err_t SHT35::temp_trak_alert(u16 status,bool stat) 
-{
-	stat=((stat >> 10) & 0x01);
-	return NO_ERROR;
-}
-err_t SHT35::temp_trak_alert(bool stat)
-{
-	err_t ret=NO_ERROR;
-	u16 status=0;
-	CHECK_RESULT(ret,read_reg_status(&status));
-	stat=((stat >> 10) & 0x01);
-	return ret;
-}
-/****************************************************/
+
 err_t SHT35::reset_check(u16 status,bool stat) 
 {
 	stat=((stat >> 4) & 0x01);

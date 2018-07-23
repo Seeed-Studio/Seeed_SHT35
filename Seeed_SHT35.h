@@ -97,14 +97,10 @@ class SHT35:public IIC_OPRTS
         err_t init();
         err_t read_reg_status(u16 *value);
 
-        err_t alert_pengding(u16 status,bool stat);
-        err_t alert_pengding(bool stat);
+
         err_t heaterStatus(u16 status,bool stat);
         err_t heaterStatus(bool stat);
-        err_t hum_trak_alert(u16 status,bool stat);
-        err_t hum_trak_alert(bool stat);
-        err_t temp_trak_alert(u16 status,bool stat);
-        err_t temp_trak_alert(bool stat);
+
         err_t reset_check(u16 status,bool stat);
         err_t reset_check(bool stat);
         err_t cmd_excu_stat(u16 status,bool stat);
@@ -118,20 +114,13 @@ class SHT35:public IIC_OPRTS
         float get_temp(u16 temp);
         float get_hum(u16 hum);
         err_t clear_status_reg();
-        err_t read_alert_limit(u16* value);
-        err_t set_alert_limit();
+
 
         err_t read_meas_data_single_shot(u16 cfg_cmd,float *temp,float *hum);
 
         u16 temp_to_hex(float temp);
         u16 hum_to_hex(float hum);
         u16 convert_temp_hum_to_set_limit(float temp,float hum);
-
-        err_t set_high_limit(float temp,float hum);
-        err_t set_high_limit_clear(float temp,float hum);
-        err_t set_low_limit(float temp,float hum);
-        err_t set_low_limit_clear(float temp,float hum);
-        err_t temp_alert_enable();
     private:
         const u16	data_commands[21] = {
 
