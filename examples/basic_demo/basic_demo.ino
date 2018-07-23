@@ -38,10 +38,10 @@ void loop()
     sensor.read_meas_data_single_shot(HIGH_REP_WITH_STRCH,&temp,&hum);
 
     SERIAL.println("result======>");
-    SERIAL.print("temp =");
+    SERIAL.print("temperature =");
     SERIAL.println(temp);
 
-    SERIAL.print("hum =");
+    SERIAL.print("humidity =");
     SERIAL.println(hum);
 
     SERIAL.println("   ");
