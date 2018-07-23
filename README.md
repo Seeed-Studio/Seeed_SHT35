@@ -1,6 +1,8 @@
 Grove Temperature sensor SHT35
 ==============
 
+![SHT35](https://github.com/linux-downey/Seeed_SHT35/blob/master/SHT35.png)
+
 Introduction of sensor
 ----------------------------  
 SHT3x-DIS is the next generation of Sensirion’s temperature and humidity sensors. It builds on a new CMOSens® sensor chip that is at the heart of Sensirion’s
