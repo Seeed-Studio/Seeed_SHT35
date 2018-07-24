@@ -170,18 +170,24 @@ u8 IIC_OPRTS::crc8(const u8 *data, int len)
   return crc;
 }
 
-s32 IIC_OPRTS::send_command(u16 cmd)
+err_t IIC_OPRTS::send_command(u16 cmd)
 {
+	s32 ret=0;
 	Wire.beginTransmission(_IIC_ADDR);
 	Wire.write((cmd >> 8) & 0xFF);
 	Wire.write(cmd & 0xFF);
-	return Wire.endTransmission();
+	ret=Wire.endTransmission();
+	if(!ret)
+		return NO_ERROR;
+	else
+		return ERROR_COMM;
 }
 
 
 err_t IIC_OPRTS::I2C_write_bytes(u16 cmd,u8* data,u32 len)
 {
 	u8 crc=0;
+	s32 ret=0;
 	crc=crc8(data,len);
 
 	Wire.beginTransmission(_IIC_ADDR);
@@ -193,29 +199,35 @@ err_t IIC_OPRTS::I2C_write_bytes(u16 cmd,u8* data,u32 len)
 		Wire.write(data[i]);
 	}
 	Wire.write(crc);
-	return Wire.endTransmission();
+	ret=Wire.endTransmission();
+	if(!ret)
+		return NO_ERROR;
+	else
+		return ERROR_COMM;
 }
 
-s32 IIC_OPRTS::request_bytes(u8* data,u16 data_len)
+err_t IIC_OPRTS::request_bytes(u8* data,u16 data_len)
 {
+	err_t ret=NO_ERROR;
 	u32 time_out_count=0;
 	Wire.requestFrom(_IIC_ADDR, data_len);
 	while(data_len!=Wire.available())
     {
         time_out_count++;
-        if(time_out_count>10)  return -1;
+        if(time_out_count>10)  return ERROR_COMM;
         delay(1);
     }
     for(int i=0;i<data_len;i++)
     {
         data[i]=Wire.read();
     }
-	return 0;
+	return NO_ERROR;
 } 
 
 /*SHT3X device is different from other general IIC device.*/
-s32 IIC_OPRTS::read_bytes(u8* data,u32 data_len,clk_skch_t clk_strch_stat) 
+err_t IIC_OPRTS::read_bytes(u8* data,u32 data_len,clk_skch_t clk_strch_stat) 
 {
+	err_t ret=NO_ERROR;
     u32 time_out_count=0;
 	if (clk_strch_stat == CLK_STRETCH_ENABLE)
 	{
@@ -232,14 +244,14 @@ s32 IIC_OPRTS::read_bytes(u8* data,u32 data_len,clk_skch_t clk_strch_stat)
     while(data_len!=Wire.available())
     {
         time_out_count++;
-        if(time_out_count>10)  return -1;
+        if(time_out_count>10)  return ERROR_COMM;
         delay(1);
     }
     for(int i=0;i<data_len;i++)
     {
         data[i]=Wire.read();
     }
-    return 0;
+    return NO_ERROR;
 }
 
 

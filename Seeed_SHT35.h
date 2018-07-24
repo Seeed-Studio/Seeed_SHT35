@@ -75,9 +75,9 @@ class IIC_OPRTS
 {
     public:
         void IIC_begin(){Wire.begin();}
-        s32 send_command(u16 cmd);
-        s32 request_bytes(u8* data,u16 data_len);
-        s32 read_bytes(u8* data,u32 data_len,clk_skch_t clk_strch_stat);
+        err_t send_command(u16 cmd);
+        err_t request_bytes(u8* data,u16 data_len);
+        err_t read_bytes(u8* data,u32 data_len,clk_skch_t clk_strch_stat);
         void set_scl_pin(u8 scl);
         void set_iic_addr(u8 IIC_ADDR);
         u8 crc8(const u8 *data, int len);
