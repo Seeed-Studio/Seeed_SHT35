@@ -35,18 +35,27 @@ void loop()
      u16 value=0;
     u8 data[6]={0};
     float temp,hum;
-    sensor.read_meas_data_single_shot(HIGH_REP_WITH_STRCH,&temp,&hum);
+    if(NO_ERROR!=sensor.read_meas_data_single_shot(HIGH_REP_WITH_STRCH,&temp,&hum))
+    {
+      SERIAL.println("read temp failed!!");
+      SERIAL.println("   ");
+      SERIAL.println("   ");
+      SERIAL.println("   ");
+    }
+    else
+    {
+      SERIAL.println("result======>");
+      SERIAL.print("temperature =");
+      SERIAL.println(temp);
 
-    SERIAL.println("result======>");
-    SERIAL.print("temperature =");
-    SERIAL.println(temp);
+      SERIAL.print("humidity =");
+      SERIAL.println(hum);
 
-    SERIAL.print("humidity =");
-    SERIAL.println(hum);
-
-    SERIAL.println("   ");
-    SERIAL.println("   ");
-    SERIAL.println("   ");
+      SERIAL.println("   ");
+      SERIAL.println("   ");
+      SERIAL.println("   ");
+    }
+  
     delay(1000);
 }
 
