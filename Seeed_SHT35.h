@@ -4,11 +4,19 @@
 #include "arduino.h"
 #include "Wire.h"
 
+
+#ifdef ARDUINO_SAMD_VARIANT_COMPLIANCE
+  #define SERIAL SerialUSB
+#else
+  #define SERIAL Serial
+#endif
+
+
 #define CHECK_RESULT(a,b)   do{if(a=b)  {    \
-                            Serial.print(__FILE__);    \
-                            Serial.print(__LINE__);   \
-                            Serial.print(" error code =");  \
-                            Serial.println(a);                   \
+                            SERIAL.print(__FILE__);    \
+                            SERIAL.print(__LINE__);   \
+                            SERIAL.print(" error code =");  \
+                            SERIAL.println(a);                   \
                             return a;   \
                             }}while(0)
 

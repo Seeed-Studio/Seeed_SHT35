@@ -5,14 +5,14 @@ SHT35::SHT35(u8 scl_pin,u8 IIC_ADDR)
 {
 	set_iic_addr(IIC_ADDR);
 	set_scl_pin(scl_pin);
-	CLK_STRCH_STAT=CLK_STRETCH_ENABLE;
+	CLK_STRCH_STAT=CLK_STRETCH_DISABLE;
 }
 
 err_t SHT35::init()
 {
 	err_t ret=NO_ERROR;
 	IIC_begin();
-	CHECK_RESULT(ret,soft_reset());
+	ret=soft_reset();
 	return ret;
 }
 
@@ -21,7 +21,7 @@ err_t SHT35::init()
 err_t SHT35::soft_reset()
 {
 	err_t ret=NO_ERROR;
-	CHECK_RESULT(ret,send_command(CMD_SOFT_RST));
+	ret=send_command(CMD_SOFT_RST);
 	return ret;
 }
 
