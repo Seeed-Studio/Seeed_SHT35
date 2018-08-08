@@ -2,7 +2,7 @@
 
 
 /*SAMD core*/
-#ifdef defined (ARDUINO_SAMD_VARIANT_COMPLIANCE )
+#ifdef ARDUINO_SAMD_VARIANT_COMPLIANCE
   #define SDAPIN  20
   #define SCLPIN  21
   #define RSTPIN  7
@@ -55,7 +55,6 @@ void loop()
       SERIAL.println("   ");
       SERIAL.println("   ");
     }
-  
     delay(1000);
 }
 
