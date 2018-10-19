@@ -1,7 +1,6 @@
 Grove Temperature sensor SHT35
 ==============
 
-![SHT35](https://user-images.githubusercontent.com/41441945/44910095-811fc080-ad54-11e8-95c4-d29398dcb1ea.png)
 
 Introduction of sensor
 ----------------------------  
