@@ -183,7 +183,7 @@ err_t SHT35::last_write_checksum(bool stat)
 
 /***********************************************************************************************/
 /*****************************************IIC OPRT**********************************************/
-u8 IIC_OPRTS::crc8(const u8 *data, int len)
+u8 SHT_IIC_OPRTS::crc8(const u8 *data, int len)
 {
 
   const u8 POLYNOMIAL=0x31;
@@ -201,7 +201,7 @@ u8 IIC_OPRTS::crc8(const u8 *data, int len)
   return crc;
 }
 
-err_t IIC_OPRTS::send_command(u16 cmd)
+err_t SHT_IIC_OPRTS::send_command(u16 cmd)
 {
 	s32 ret=0;
 	Wire.beginTransmission(_IIC_ADDR);
@@ -215,7 +215,7 @@ err_t IIC_OPRTS::send_command(u16 cmd)
 }
 
 
-err_t IIC_OPRTS::I2C_write_bytes(u16 cmd,u8* data,u32 len)
+err_t SHT_IIC_OPRTS::I2C_write_bytes(u16 cmd,u8* data,u32 len)
 {
 	u8 crc=0;
 	s32 ret=0;
@@ -237,7 +237,7 @@ err_t IIC_OPRTS::I2C_write_bytes(u16 cmd,u8* data,u32 len)
 		return ERROR_COMM;
 }
 
-err_t IIC_OPRTS::request_bytes(u8* data,u16 data_len)
+err_t SHT_IIC_OPRTS::request_bytes(u8* data,u16 data_len)
 {
 	err_t ret=NO_ERROR;
 	u32 time_out_count=0;
@@ -256,7 +256,7 @@ err_t IIC_OPRTS::request_bytes(u8* data,u16 data_len)
 } 
 
 /*SHT3X device is different from other general IIC device.*/
-err_t IIC_OPRTS::read_bytes(u8* data,u32 data_len,clk_skch_t clk_strch_stat) 
+err_t SHT_IIC_OPRTS::read_bytes(u8* data,u32 data_len,clk_skch_t clk_strch_stat) 
 {
 	err_t ret=NO_ERROR;
     u32 time_out_count=0;
@@ -286,7 +286,7 @@ err_t IIC_OPRTS::read_bytes(u8* data,u32 data_len,clk_skch_t clk_strch_stat)
 }
 
 
-void IIC_OPRTS::set_scl_pin(u8 scl)
+void SHT_IIC_OPRTS::set_scl_pin(u8 scl)
 {
 	SCK_PIN=scl;
 }
@@ -294,7 +294,7 @@ void IIC_OPRTS::set_scl_pin(u8 scl)
 /**@brief change the I2C address from default.
  * @param IIC_ADDR: I2C address to be set 
  * */
-void IIC_OPRTS::set_iic_addr(u8 IIC_ADDR)
+void SHT_IIC_OPRTS::set_iic_addr(u8 IIC_ADDR)
 {
     _IIC_ADDR=IIC_ADDR;
 }
