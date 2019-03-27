@@ -75,12 +75,14 @@ void loop()
     }
     else
     {
-      SERIAL.println("result======>");
-      SERIAL.print("temperature =");
-      SERIAL.println(temp);
+      SERIAL.println("read data :");
+      SERIAL.print("temperature = ");
+      SERIAL.print(temp);
+	  SERIAL.println(" ℃ ");
 
-      SERIAL.print("humidity =");
-      SERIAL.println(hum);
+      SERIAL.print("humidity = ");
+      SERIAL.print(hum);
+	  SERIAL.println(" % ");
 
       SERIAL.println("   ");
       SERIAL.println("   ");
