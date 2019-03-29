@@ -1,4 +1,4 @@
-Grove Temperature sensor SHT35
+Grove - I2C High Accuracy Temp&Humi Sensor(SHT35)
 ==============
 
 
