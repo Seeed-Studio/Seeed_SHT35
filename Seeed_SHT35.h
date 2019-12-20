@@ -110,6 +110,9 @@ typedef enum
 
 #define     HIGH_REP_WITH_STRCH      0x2C06
 
+#define     CMD_HEATER_ON     0x306D
+#define     CMD_HEATER_OFF    0x3066
+
 typedef enum
 {
     CLK_STRETCH_DISABLE,
@@ -161,7 +164,7 @@ class SHT35:public SHT_IIC_OPRTS
         float get_temp(u16 temp);
         float get_hum(u16 hum);
         err_t clear_status_reg();
-
+	err_t change_heater_status(bool stat);
 
         err_t read_meas_data_single_shot(u16 cfg_cmd,float *temp,float *hum);
 
