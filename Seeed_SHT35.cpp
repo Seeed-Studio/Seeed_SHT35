@@ -186,7 +186,6 @@ err_t SHT35::last_write_checksum(bool stat)
 err_t SHT35::change_heater_status(bool stat)
 {
 	err_t ret=NO_ERROR;
-	u16 status=0;
 
 	if (stat) {
 	  ret=send_command(CMD_HEATER_ON);
