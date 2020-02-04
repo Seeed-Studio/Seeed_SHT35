@@ -1,4 +1,4 @@
-Grove - I2C High Accuracy Temp&Humi Sensor(SHT35)
+Grove - I2C High Accuracy Temp&Humi Sensor(SHT35)  [![Build Status](https://travis-ci.com/Seeed-Studio/Seeed_SHT35.svg?branch=master)](https://travis-ci.com/Seeed-Studio/Seeed_SHT35)
 ==============
 
 
