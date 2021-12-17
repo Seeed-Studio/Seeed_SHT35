@@ -53,7 +53,7 @@ void setup() {
     delay(10);
     SERIAL.println("serial start!!");
     if (sensor.init()) {
-        SERIAL.println("sensor init failed!!!");
+        SERIAL.println("sensor init failed!!");
     }
     delay(1000);
 }
