@@ -60,7 +60,7 @@ typedef enum {
     ERROR_PARAM = -1,
     ERROR_COMM = -2,
     ERROR_OTHERS = -128,
-} err_t;
+} sht_err_t;
 
 
 #define CHECK_RESULT(a,b)   do{if(a=b)  {    \
@@ -126,14 +126,14 @@ class SHT_IIC_OPRTS {
     void IIC_begin() {
         Wire.begin();
     }
-    err_t send_command(u16 cmd);
-    err_t request_bytes(u8* data, u16 data_len);
-    err_t read_bytes(u8* data, u32 data_len, clk_skch_t clk_strch_stat);
+    sht_err_t send_command(u16 cmd);
+    sht_err_t request_bytes(u8* data, u16 data_len);
+    sht_err_t read_bytes(u8* data, u32 data_len, clk_skch_t clk_strch_stat);
     void set_scl_pin(u8 scl);
     void set_iic_addr(u8 IIC_ADDR);
     u8 crc8(const u8* data, int len);
 
-    err_t I2C_write_bytes(u16 cmd, u8* data, u32 len);
+    sht_err_t I2C_write_bytes(u16 cmd, u8* data, u32 len);
   private:
     u8 _IIC_ADDR;
     u8 SCK_PIN;
@@ -144,29 +144,29 @@ class SHT35: public SHT_IIC_OPRTS {
   public:
     SHT35(u8 scl_pin, u8 IIC_ADDR = DEFAULT_IIC_ADDR);
     ~SHT35() {}
-    err_t init();
-    err_t read_reg_status(u16* value);
+    sht_err_t init();
+    sht_err_t read_reg_status(u16* value);
 
 
-    err_t heaterStatus(u16 status, bool stat);
-    err_t heaterStatus(bool stat);
+    sht_err_t heaterStatus(u16 status, bool stat);
+    sht_err_t heaterStatus(bool stat);
 
-    err_t reset_check(u16 status, bool stat);
-    err_t reset_check(bool stat);
-    err_t cmd_excu_stat(u16 status, bool stat);
-    err_t cmd_excu_stat(bool stat);
-    err_t last_write_checksum(u16 status, bool stat);
-    err_t last_write_checksum(bool stat);
+    sht_err_t reset_check(u16 status, bool stat);
+    sht_err_t reset_check(bool stat);
+    sht_err_t cmd_excu_stat(u16 status, bool stat);
+    sht_err_t cmd_excu_stat(bool stat);
+    sht_err_t last_write_checksum(u16 status, bool stat);
+    sht_err_t last_write_checksum(bool stat);
 
-    //err_t SHT35::read_meas_data(u16 cfg_cmd,float *temp,float *hum);
-    err_t soft_reset();
+    //sht_err_t SHT35::read_meas_data(u16 cfg_cmd,float *temp,float *hum);
+    sht_err_t soft_reset();
 
     float get_temp(u16 temp);
     float get_hum(u16 hum);
-    err_t clear_status_reg();
-    err_t change_heater_status(bool stat);
+    sht_err_t clear_status_reg();
+    sht_err_t change_heater_status(bool stat);
 
-    err_t read_meas_data_single_shot(u16 cfg_cmd, float* temp, float* hum);
+    sht_err_t read_meas_data_single_shot(u16 cfg_cmd, float* temp, float* hum);
 
     u16 temp_to_hex(float temp);
     u16 hum_to_hex(float hum);
