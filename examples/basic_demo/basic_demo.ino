@@ -32,18 +32,29 @@
 #include "Seeed_SHT35.h"
 
 
-/*SAMD core*/
-#ifdef ARDUINO_SAMD_VARIANT_COMPLIANCE
-    #define SDAPIN  20
-    #define SCLPIN  21
-    #define RSTPIN  7
-    #define SERIAL SerialUSB
+#if defined(ARDUINO_ARCH_RP2040) || defined(ARDUINO_ARCH_RP2350) || defined(ESP32)
+    #define SDAPIN  D4
+    #define SCLPIN  D5
 #else
     #define SDAPIN  A4
     #define SCLPIN  A5
-    #define RSTPIN  2
+#endif
+
+
+#ifdef SEEED_XIAO_M0
+    #define SERIAL Serial
+#elif defined(ARDUINO_SAMD_VARIANT_COMPLIANCE)
+    #define SERIAL SerialUSB
+#else
     #define SERIAL Serial
 #endif
+
+#ifdef ARDUINO_SAMD_VARIANT_COMPLIANCE
+    #define RSTPIN  7
+#else
+    #define RSTPIN  2
+#endif
+
 
 SHT35 sensor(SCLPIN);
 

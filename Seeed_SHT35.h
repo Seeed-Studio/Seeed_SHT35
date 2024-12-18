@@ -39,7 +39,9 @@
 #ifndef SEEED_DN_DEFINES
 #define SEEED_DN_DEFINES
 
-#ifdef ARDUINO_SAMD_VARIANT_COMPLIANCE
+#ifdef SEEED_XIAO_M0
+    #define SERIAL_DB Serial
+#elif defined(ARDUINO_SAMD_VARIANT_COMPLIANCE)
     #define SERIAL_DB SerialUSB
 #else
     #define SERIAL_DB Serial
